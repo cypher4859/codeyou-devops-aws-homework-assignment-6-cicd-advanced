@@ -42,7 +42,7 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t wtyler9889/ruby-app:develop .
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/ruby-app:develop .
 
       - name: Log in to Docker Hub
         uses: docker/login-action@v2
@@ -52,4 +52,4 @@ jobs:
 
       - name: Push Docker image to Docker Hub
         run: |
-          docker push wtyler9889/ruby-app:develop
+          docker push ${{ secrets.DOCKER_USERNAME }}/ruby-app:develop
