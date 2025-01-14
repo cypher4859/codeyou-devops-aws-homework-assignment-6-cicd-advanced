@@ -31,6 +31,7 @@ jobs:
       - name: bundler-audit
         run: |
           gem install bundler-audit
+          bundel update loofah
           bundle audit update
           bundle audit check
 
