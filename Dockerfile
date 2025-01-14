@@ -1,7 +1,7 @@
 FROM ruby:3.1
 
 WORKDIR /app
-COPY Gemfile Gemfile.lock ./
+COPY Gemfile ./
 RUN bundle install
 COPY . .
 EXPOSE 4567
