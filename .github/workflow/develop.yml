@@ -5,6 +5,10 @@ on:
     branches:
       - develop
 
+env:
+  DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+  DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
 jobs:
   lint:
     runs-on: ubuntu-latest
@@ -30,12 +34,13 @@ jobs:
         run: bundle exec rspec
 
       - name: Build Image
-        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/ruby-app:develop
+        run: |
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/ruby-app:${{ github.ref_name }} -t ${{ secrets.DOCKER_USERNAME }}/ruby-app:${{ github.ref_name }}-$(git rev-parse --short HEAD)
 
       - name: Push Docker Image
         run: |
           echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
-          docker push ${{ secrets.DOCKER_USERNAME }}/ruby-app:develop
+          docker push ${{ secrets.DOCKER_USERNAME }}/ruby-app:${{ github.ref_name }} ${{ secrets.DOCKER_USERNAME }}/ruby-app:${{ github.ref_name }}-$(git rev-parse --short HEAD)
 
       
       
